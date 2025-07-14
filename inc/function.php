@@ -116,31 +116,28 @@ function getAllObjetsResult() {
     $sql = "SELECT * FROM objet";
     return mysqli_query($bdd, $sql);
 }
-function insertImageObjet($id_objet, $nom_image) {
-    $bdd = dbconnect();
-    $sql = "INSERT INTO images_objet (id_objet, nom_image) VALUES ($id_objet, '$nom_image')";
-    return mysqli_query($bdd, $sql);
-}
+// function insertImageObjet($id_objet, $nom_image) {
+//     $bdd = dbconnect();
+//     $sql = "INSERT INTO images_objet (id_objet, nom_image) VALUES ($id_objet, '$nom_image')";
+//     return mysqli_query(mysql: $bdd, $sql);
+// }
 function getImagesAvecObjets() {
-    $bdd = dbconnect();
+    
     $sql = "SELECT o.nom_objet, i.nom_image 
             FROM images_objet i
             JOIN objet o ON i.id_objet = o.id_objet";
     return mysqli_query($bdd, $sql);
 }
-function updateImageObjet($id_objet, $nom_image) {
-    $bdd = dbconnect();
-    $sql = "UPDATE images_objet SET nom_image = '$nom_image' WHERE id_objet = $id_objet";
-    return mysqli_query($bdd, $sql);
-}
 
-function getImageByObjet($id_objet) {
-    $bdd = dbconnect();
-    $sql = "SELECT * FROM images_objet WHERE id_objet = $id_objet LIMIT 1";
-    $res = mysqli_query($bdd, $sql);
-    if ($res) return mysqli_fetch_assoc($res);
-    return null;
-}
 
+function getEmpruntEnCours( $id_objet) {
+   $bdd = dbconnect();
+    $sql = "SELECT * FROM emprunt WHERE id_objet = ? AND date_retour >= NOW() ORDER BY date_retour DESC LIMIT 1";
+    $stmt = mysqli_prepare($bdd, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $id_objet);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    return mysqli_fetch_assoc($result); // Retourne l'emprunt en cours ou null
+}
 
 ?>

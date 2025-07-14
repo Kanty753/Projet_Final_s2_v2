@@ -3,10 +3,10 @@ function dbconnect()
 {
     static $connect = null;
     $bdd_name = "db_s2_ETU004061"; // Nom de la base de données
-    $mdp = "ou4hFfUs";
-    $user = "ETU004061";
-    // $mdp = "";
-    // $user = "root";
+    // $mdp = "ou4hFfUs";
+    // $user = "ETU004061";
+    $mdp = "";
+    $user = "root";
     $host = "localhost";
 
 

@@ -45,20 +45,25 @@ $catCount = count($categories);
         <button type="submit">Filtrer</button>
     </form>
 
-    <?php
-   while ($i < $count) {
-    echo '<div class="objet">';
+    <?php while ($i < $count) { ?>
+    <div class="objet">
+   <?php 
     echo '<h2>' . $objets[$i]['nom_objet'] . '</h2>';
     echo '<p><strong>Categorie :</strong> ' . $objets[$i]['nom_categorie'] . '</p>';
     echo '<p><strong>Proprietaire :</strong> ' . $objets[$i]['nom_membre'] . '</p>';
-
-  
     echo '<p><a href="modifier_image.php?id_objet=' . $objets[$i]['id_objet'] . '">Modifier l\'image</a></p>';
-
-    echo '</div>';
-    $i++;
-}
-
     ?>
-  
+    <p><a href="emprunt.php?id=<?=$objets[$i]['id_objet']?>">Emprunter</a></p>
+    <?php
+$emprunt = getEmpruntEnCours($objets[$i]['id_objet']);
+if ($emprunt) {
+echo"    Il y a un emprunt en cours";
+} else {
+    // Pas d'emprunt en cours
+}
+?>
+</div>
+
+<?php $i++ ; } ?>
+  </body>
 </html>

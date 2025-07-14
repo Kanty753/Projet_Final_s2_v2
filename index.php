@@ -1,11 +1,11 @@
 <?php
 $host = 'localhost';
 
-$user = 'ETU004061';
-$pass = 'ou4hFfUs'; // Remplace par ton mot de passe si besoin
+// $user = 'ETU004061';
+// $pass = 'ou4hFfUs'; // Remplace par ton mot de passe si besoin
 
-// $user = 'root';
-// $pass = ''; // Remplace par ton mot de passe si besoin
+$user = 'root';
+$pass = ''; // Remplace par ton mot de passe si besoin
 
 
 $dbname = 'db_s2_ETU004061'; // Nom de la base de données
