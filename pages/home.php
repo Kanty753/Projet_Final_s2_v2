@@ -25,6 +25,7 @@ $catCount = count($categories);
 <head>
     <meta charset="UTF-8">
     <title>Liste des objets</title>
+    <link rel="stylesheet" href="../assets/home.css">
 </head>
 <body>
     <h1>Liste des objets</h1>

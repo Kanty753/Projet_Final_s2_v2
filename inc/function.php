@@ -65,10 +65,11 @@ function isMembre($email)
 
 function getobjet() {
     $bdd=dbconnect();
-    $sql = "SELECT objet.id_objet, objet.nom_objet, categorie_objet.nom_categorie, membre.nom AS nom_membre
+    $sql = "SELECT objet.id_objet, objet.nom_objet, categorie_objet.nom_categorie, membre.nom AS nom_membre , i.nom_image
             FROM objet
             JOIN categorie_objet ON objet.id_categorie = categorie_objet.id_categorie
-            JOIN membre ON objet.id_membre = membre.id_membre";
+            JOIN membre ON objet.id_membre = membre.id_membre
+            JOIN images_objet i on objet.id_objet = i.id_objet ";
     $result = mysqli_query($bdd, $sql);
     $objets = array();
     while ($row = mysqli_fetch_assoc($result)) {

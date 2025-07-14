@@ -1,0 +1,86 @@
+/* Reset de base */
+body, h1, h2, p, form, select, button, label {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background: #f6f8fa;
+    color: #222;
+    padding: 40px 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 32px;
+    color: #2c3e50;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 36px;
+}
+
+label {
+    font-weight: 500;
+    color: #34495e;
+}
+
+select {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid #bfc9d1;
+    background: #fff;
+    font-size: 1rem;
+}
+
+button[type="submit"] {
+    padding: 7px 18px;
+    background: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button[type="submit"]:hover {
+    background: #217dbb;
+}
+
+.objet {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+    margin: 0 auto 24px auto;
+    max-width: 500px;
+    padding: 24px 28px;
+    transition: box-shadow 0.2s;
+}
+
+.objet:hover {
+    box-shadow: 0 4px 16px rgba(44, 62, 80, 0.15);
+}
+
+.objet h2 {
+    color: #2980b9;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.objet p {
+    margin-bottom: 6px;
+    font-size: 1rem;
+}
+
+.objet p strong {
+    color: #555;
+}

@@ -117,3 +117,13 @@ INSERT INTO emprunt (id_objet, id_membre, date_emprunt, date_retour) VALUES
 (8, 3, '2024-06-08', '2024-06-18'),
 (19, 1, '2024-06-09', '2024-06-19'),
 (30, 2, '2024-06-10', '2024-06-24') ;
+CREATE VIEW vue_images_objets AS
+SELECT 
+    o.id_objet,
+    o.nom_objet,
+    c.nom_categorie,
+    i.nom_image,
+    m.nom AS nom_proprietaire
+FROM objet o
+JOIN images_objet i ON o.id_objet = i.id_objet
+;
