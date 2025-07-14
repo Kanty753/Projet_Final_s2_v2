@@ -1,43 +1,56 @@
 <?php
-include_once('connect.php');
 
-function savefile($fichier)
-{
-    $uploadDir = __DIR__ . '/../uploads/';
-    $maxSize = 100 * 1024 * 1024; // 100 Mo
-    $allowedMimeTypes = ['image/jpeg', 'image/png', 'application/pdf', 'video/mp4'];
-    
-    $newName = null; // <-- initialisation
-    
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($fichier)) {
-        $file = $fichier;
-        if ($file['error'] !== UPLOAD_ERR_OK) {
-            die('Erreur lors de l’upload : ' . $file['error']);
-        }
-        if ($file['size'] > $maxSize) {
-            die('Le fichier est trop volumineux.');
-        }
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime = finfo_file($finfo, $file['tmp_name']);
-        finfo_close($finfo);
-        if (!in_array($mime, $allowedMimeTypes)) {
-            die('Type de fichier non autorisé : ' . $mime);
-        }
-        $originalName = pathinfo($file['name'], PATHINFO_FILENAME);
-        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $newName = $originalName . '_' . uniqid() . '.' . $extension;
-        if (move_uploaded_file($file['tmp_name'], $uploadDir . $newName)) {
-            // succès, on retourne le nouveau nom
-            return $newName;
-        } else {
-            die("Échec du déplacement du fichier.");
-        }
-    } else {
-        die("Aucun fichier reçu.");
-    }
-    
-   
+
+
+function dbconnect() {
+    return mysqli_connect("localhost", "root", "", "db_s2_ETU004061");
 }
+
+function getAllObjets() {
+    $bdd = dbconnect();
+    $sql = "SELECT * FROM objet";
+    $result = mysqli_query($bdd, $sql);
+    $objets = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $objets[] = $row;
+    }
+    return $objets;
+}
+
+function savefile($fichier) {
+    $uploadDir = __DIR__ . '/../uploads/';
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
+    $maxSize = 5 * 1024 * 1024; // 5 Mo
+    $allowed = ['image/jpeg', 'image/png', 'image/jpg'];
+
+    if ($fichier['error'] !== 0) {
+        return false;
+    }
+
+    if ($fichier['size'] > $maxSize) {
+        return false;
+    }
+
+    $mime = mime_content_type($fichier['tmp_name']);
+    if (!in_array($mime, $allowed)) {
+        return false;
+    }
+
+    $ext = pathinfo($fichier['name'], PATHINFO_EXTENSION);
+    $newName = uniqid() . '.' . $ext;
+    $target = $uploadDir . $newName;
+
+    if (move_uploaded_file($fichier['tmp_name'], $target)) {
+        return $newName;
+    }
+
+    return false;
+}
+
+
 
 function getMembrebyEmail($email)
 {
@@ -98,5 +111,36 @@ function filtreparcateg($bdd, $id_categorie = 0) {
     }
     return $objets;
 }
+function getAllObjetsResult() {
+    $bdd = dbconnect();
+    $sql = "SELECT * FROM objet";
+    return mysqli_query($bdd, $sql);
+}
+function insertImageObjet($id_objet, $nom_image) {
+    $bdd = dbconnect();
+    $sql = "INSERT INTO images_objet (id_objet, nom_image) VALUES ($id_objet, '$nom_image')";
+    return mysqli_query($bdd, $sql);
+}
+function getImagesAvecObjets() {
+    $bdd = dbconnect();
+    $sql = "SELECT o.nom_objet, i.nom_image 
+            FROM images_objet i
+            JOIN objet o ON i.id_objet = o.id_objet";
+    return mysqli_query($bdd, $sql);
+}
+function updateImageObjet($id_objet, $nom_image) {
+    $bdd = dbconnect();
+    $sql = "UPDATE images_objet SET nom_image = '$nom_image' WHERE id_objet = $id_objet";
+    return mysqli_query($bdd, $sql);
+}
+
+function getImageByObjet($id_objet) {
+    $bdd = dbconnect();
+    $sql = "SELECT * FROM images_objet WHERE id_objet = $id_objet LIMIT 1";
+    $res = mysqli_query($bdd, $sql);
+    if ($res) return mysqli_fetch_assoc($res);
+    return null;
+}
+
 
 ?>
